@@ -77,6 +77,8 @@ header {
   scrollbar-color: red orange;
   scrollbar-width: thin;
   position: relative;
+  
+  
 }
 
 .item-list::-webkit-scrollbar {
