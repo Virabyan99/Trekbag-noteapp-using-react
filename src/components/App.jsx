@@ -5,10 +5,6 @@ import Header from './Header'
 import ItemList from './ItemList'
 import Sidebar from './Sidebar'
 import { initialItems } from '../lib/constants'
-import Logo from './Logo'
-import Counter from './Counter'
-import AddItemForm from './AddItemForm'
-import ButtonGroup from './ButtonGroup'
 
 function App() {
   const [items, setItems] = useState(
@@ -67,28 +63,23 @@ function App() {
       <BackgroundHeading />
 
       <main>
-        <Header>
-          <Logo />
-          <Counter
-            nuberOfItemsPacked={items.filter((item) => item.packed).length}
-            totalNumberOfItems={items.length}
-          />
-        </Header>
+        <Header
+          nuberOfItemsPacked={items.filter((item) => item.packed).length}
+          totalNumberOfItems={items.length}
+        />
 
         <ItemList
           items={items}
           handleDeleteItem={handleDeleteItem}
           handleToggleItem={handleToggleItem}
         />
-        <Sidebar>
-          <AddItemForm onAddItem={handleAddItem} />
-          <ButtonGroup
-            handleMarkAllAsComplete={handleMarkAllAsComplete}
-            handleMarkAllAsIncomplete={handleMarkAllAsIncomplete}
-            handelResetToInitial={handelResetToInitial}
-            handleRemoveAllItems={handleRemoveAllItems}
-          />
-        </Sidebar>
+        <Sidebar
+          handleMarkAllAsComplete={handleMarkAllAsComplete}
+          handleMarkAllAsIncomplete={handleMarkAllAsIncomplete}
+          handelResetToInitial={handelResetToInitial}
+          handleRemoveAllItems={handleRemoveAllItems}
+          handleAddItem={handleAddItem}
+        />
       </main>
       <Footer />
     </>
