@@ -1,13 +1,19 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import BackgroundHeading from './BackgroundHeading'
 import Footer from './Footer'
 import Header from './Header'
 import ItemList from './ItemList'
 import Sidebar from './Sidebar'
 import { initialItems } from '../lib/constants'
+import Logo from './Logo'
+import Counter from './Counter'
+import AddItemForm from './AddItemForm'
+import ButtonGroup from './ButtonGroup'
 
 function App() {
-  const [items, setItems] = useState(initialItems)
+  const [items, setItems] = useState(
+    () => JSON.parse(localStorage.getItem('items')) || initialItems
+  )
 
   const handleAddItem = (newItemText) => {
     const newItem = {
@@ -52,27 +58,37 @@ function App() {
     setItems(updatedItems)
   }
 
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(items))
+  }, [items])
+
   return (
     <>
       <BackgroundHeading />
 
       <main>
-        <Header
-          nuberOfItemsPacked={items.filter((item) => item.packed).length}
-          totalNumberOfItems={items.length}
-        />
+        <Header>
+          <Logo />
+          <Counter
+            nuberOfItemsPacked={items.filter((item) => item.packed).length}
+            totalNumberOfItems={items.length}
+          />
+        </Header>
+
         <ItemList
           items={items}
           handleDeleteItem={handleDeleteItem}
           handleToggleItem={handleToggleItem}
         />
-        <Sidebar
-          handleMarkAllAsComplete={handleMarkAllAsComplete}
-          handleMarkAllAsIncomplete={handleMarkAllAsIncomplete}
-          handelResetToInitial={handelResetToInitial}
-          handleRemoveAllItems={handleRemoveAllItems}
-          handleAddItem={handleAddItem}
-        />
+        <Sidebar>
+          <AddItemForm onAddItem={handleAddItem} />
+          <ButtonGroup
+            handleMarkAllAsComplete={handleMarkAllAsComplete}
+            handleMarkAllAsIncomplete={handleMarkAllAsIncomplete}
+            handelResetToInitial={handelResetToInitial}
+            handleRemoveAllItems={handleRemoveAllItems}
+          />
+        </Sidebar>
       </main>
       <Footer />
     </>
